@@ -29,6 +29,7 @@
 extern crate piston_window;
 extern crate interpolation;
 extern crate rand as rand_crate;
+extern crate turtle_canvas;
 
 mod turtle_window;
 
