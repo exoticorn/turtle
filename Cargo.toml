@@ -27,8 +27,6 @@ is-it-maintained-issue-resolution = { repository = "sunjay/turtle" }
 is-it-maintained-open-issues = { repository = "sunjay/turtle" }
 
 [dependencies]
-piston_window = "^0.73.0"
-interpolation = "^0.1.0"
 rand = "^0.3.18"
 turtle-canvas = { path = "turtle-canvas" }
 

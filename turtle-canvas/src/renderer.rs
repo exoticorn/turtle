@@ -16,11 +16,11 @@ use piston_window::{
     polygon,
 };
 
-use turtle_window::ReadOnly;
 use extensions::ConvertScreenCoordinates;
 use state::{Path, Polygon, Pen, TurtleState, DrawingState};
-use event::from_piston_event;
-use {Point, Event, Color, color};
+use event::{Event, from_piston_event};
+use color::{self, Color};
+use types::Point;
 
 pub enum DrawingCommand {
     /// When a path is finished being animated, it needs to be persisted in the renderer
@@ -52,6 +52,8 @@ pub struct Renderer {
     /// Polygon that is currently in the process of being filled
     /// Removed when EndFill is sent
     fill_polygon: Option<(Vec<Path>, Polygon)>,
+    turtle: TurtleState,
+    drawing: DrawingState,
 }
 
 impl Renderer {
@@ -66,7 +68,6 @@ impl Renderer {
         &mut self,
         drawing_rx: mpsc::Receiver<DrawingCommand>,
         events_tx: mpsc::Sender<Event>,
-        state: ReadOnly,
     ) {
         let mut window: PistonWindow = WindowSettings::new(
             "Turtle", [800, 600]
@@ -98,13 +99,7 @@ impl Renderer {
                 let height = view[1] as f64;
                 center = [width * 0.5, height * 0.5];
 
-                // We clone the relevant state before rendering so that the rendering thread
-                // doesn't need to keep locking, waiting or making the main thread wait
-                let drawing = state.drawing().clone();
-                let temporary_path = state.temporary_path().clone();
-                let turtle = state.turtle().clone();
-
-                self.render(c, g, center, &drawing, &temporary_path, &turtle);
+                self.render(c, g, center);
             });
         }
 

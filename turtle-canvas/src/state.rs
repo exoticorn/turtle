@@ -1,5 +1,7 @@
 use radians::Radians;
-use {Point, Speed, Color, color};
+use types::Point;
+use speed::Speed;
+use color::{self, Color};
 
 #[derive(Debug, Clone)]
 pub struct Path {
