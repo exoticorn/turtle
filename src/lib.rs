@@ -42,6 +42,6 @@ pub use turtle_canvas::event;
 pub use turtle_canvas::speed::Speed;
 pub use turtle_canvas::color::Color;
 pub use turtle_canvas::event::Event;
-pub use turtle_canvas::types::{Point, Distance, Angle}
+pub use turtle_canvas::types::{Point, Distance, Angle};
 
 pub use turtle::Turtle;

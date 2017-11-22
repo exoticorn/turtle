@@ -8,7 +8,7 @@ use interpolation::lerp;
 
 use radians::{self, Radians};
 use state::{TurtleState, Path};
-use extensions::AsMillis;
+use turtle_canvas::extensions::AsMillis;
 
 pub trait Animation {
     /// Advance the animation forward.

@@ -22,25 +22,6 @@ use event::{Event, from_piston_event};
 use color::{self, Color};
 use types::Point;
 
-pub enum DrawingCommand {
-    /// When a path is finished being animated, it needs to be persisted in the renderer
-    /// so it can be redrawn every frame
-    StorePath(Path),
-    /// Begins filling with the current fill color from the next path onwards. If temporary_path is
-    /// set, it is included in the fill shape. Any paths sent via StorePath will be added to the
-    /// filled shape.
-    /// This command should be passed the fill color that was set at the time when this command
-    /// was issued. We cannot simply poll that from the state when this command is handled because
-    /// that may be well after the fill color has changed.
-    BeginFill(Color),
-    /// Send EndFill to finish the filled shape.
-    EndFill,
-    /// Clears the image completely
-    ///
-    /// Panics if temporary_path is not None
-    Clear,
-}
-
 #[derive(Debug)]
 pub enum Drawing {
     Path(Path),
@@ -54,6 +35,7 @@ pub struct Renderer {
     fill_polygon: Option<(Vec<Path>, Polygon)>,
     turtle: TurtleState,
     drawing: DrawingState,
+    temporary_path: Option<Path>,
 }
 
 impl Renderer {
@@ -61,14 +43,14 @@ impl Renderer {
         Self {
             drawings: Vec::new(),
             fill_polygon: None,
+            turtle: TurtleState::default(),
+            drawing: DrawingState::default(),
+            temporary_path: None,
         }
     }
 
-    pub fn run(
-        &mut self,
-        drawing_rx: mpsc::Receiver<DrawingCommand>,
-        events_tx: mpsc::Sender<Event>,
-    ) {
+    /// Run the rendering loop forever
+    pub fn run(&mut self) {
         let mut window: PistonWindow = WindowSettings::new(
             "Turtle", [800, 600]
         ).exit_on_esc(true).build().unwrap();

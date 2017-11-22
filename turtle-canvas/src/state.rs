@@ -3,7 +3,7 @@ use types::Point;
 use speed::Speed;
 use color::{self, Color};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Path {
     pub start: Point,
     pub end: Point,
@@ -16,7 +16,7 @@ pub struct Polygon {
     pub fill_color: Color,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Pen {
     pub enabled: bool,
     pub thickness: f64,
