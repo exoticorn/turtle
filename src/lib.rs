@@ -26,22 +26,27 @@
 //! [`wait_for_click()`](struct.Turtle.html#method.wait_for_click) to wait for the user to click
 //! anywhere on the screen before proceeding.
 
+extern crate piston_window;
+extern crate interpolation;
 extern crate rand as rand_crate;
-extern crate turtle_canvas;
 
 mod turtle_window;
+
 mod turtle;
+mod speed;
+mod radians;
 mod animation;
+mod extensions;
+mod renderer;
+mod state;
+mod drawing_command;
 
+pub mod color;
+pub mod event;
 pub mod rand;
+
+pub use turtle::{Turtle, Point, Distance, Angle};
+pub use speed::{Speed};
+pub use color::{Color};
+pub use event::Event;
 pub use rand::{random, random_range};
-
-pub use turtle_canvas::color;
-pub use turtle_canvas::event;
-
-pub use turtle_canvas::speed::Speed;
-pub use turtle_canvas::color::Color;
-pub use turtle_canvas::event::Event;
-pub use turtle_canvas::types::{Point, Distance, Angle};
-
-pub use turtle::Turtle;
